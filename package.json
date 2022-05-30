@@ -18,7 +18,7 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^19.0.0",
+    "electron": "^19.0.1",
     "esbuild": "^0.14.41",
     "robot3": "^0.3.1",
     "@generic-components/components": "^1.1.5"
