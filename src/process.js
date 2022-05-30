@@ -37,12 +37,15 @@ function handleHttp(result) {
   }
 
   return template.innerHTML;
-
-  //frame.setAttribute('srcdoc', template.innerHTML);
 }
 
 function recipeTemplate(recipe) {
   let html = `
+    <!doctype html>
+    <html lang="en">
+    <meta charset="utf-8">
+    <title>${recipe.name}</title>
+    <link rel="stylesheet" href="browser://styles/recipe.css">
     <article>
       <header><h1>${recipe.name}</h1>
 

@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-import {app, BrowserWindow, globalShortcut} from 'electron';
+import {app, BrowserWindow, globalShortcut, protocol} from 'electron';
 import path from 'path';
 import './backend/request';
 
@@ -41,6 +41,12 @@ app.whenReady().then(() => {
 
   globalShortcut.register('CommandOrControl+T', () => {
     mainWindow.webContents.send('ctrl-cmd-t', {});
+  });
+
+  protocol.registerFileProtocol('browser', (request, callback) => {
+    const url = new URL(request.url);
+    const pth = path.normalize(`${__dirname}/../content/browser/${url.host}${url.pathname}`);
+    callback({ path: pth });
   })
 });
 

@@ -40,15 +40,29 @@ function handleHttpRequest(url) {
   });
 }
 
-async function handleBrowserRequest(url) {
+async function handleBrowserRequest(url: URL) {
   switch(url.host) {
     case 'newtab': {
-      const pth = __dirname + '/../content/browser-newtab.html'
+      const pth = __dirname + '/../content/browser/newtab.html'
       const content = await fs.promises.readFile(pth, 'utf-8');
       return {
         status: 200,
         content
       };
+    }
+    default: {
+      const pth = __dirname + '/../content/browser'  + url.pathname;
+      try {
+        const content = await fs.promises.readFile(pth, 'utf-8');
+        return {
+          status: 200,
+          content
+        };
+      } catch {
+        return {
+          status: 404
+        };
+      }
     }
   }
 }
