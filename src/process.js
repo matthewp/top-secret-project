@@ -47,29 +47,42 @@ function recipeTemplate(recipe) {
     <title>${recipe.name}</title>
     <link rel="stylesheet" href="browser://styles/recipe.css">
     <article>
-      <header><h1>${recipe.name}</h1>
-
       <figure>
         <img src="${recipe.image[0]}" alt="${recipe.name}" />
       </figure>
-    
-      <section class="ingredients">
-        <h2>Ingredients</h2>
-        <ol>
-          ${recipe.recipeIngredient.map(ing => `
-            <li>${ing}</li>
-          `).join('')}
-        </ol>
-      </section>
 
-      <section class="instructions">
-        <h2>Instructions</h2>
-        <ol>
-          ${recipe.recipeInstructions.map(instr => `
-            <li>${instr.text}</li>
-          `).join('')}
-        </ol>
-      </section>
+      <div class="content">
+        <header>
+          <div class="row-wrapper">
+            <h1 class="recipe-title">${recipe.name}</h1>
+          </div>
+          <ul class="recipe-details">
+            <li class="recipe-details-item time"><i class="ion ion-ios-clock-outline"></i><span class="value">20</span><span class="title">Minutes</span></li>
+            <li class="recipe-details-item ingredients"><i class="ion ion-ios-book-outline"></i><span class="value">5</span><span class="title">Ingredients</span></li>
+            <li class="recipe-details-item servings"><i class="ion ion-ios-person-outline"></i><span class="value">4-6</span><span class="title">Serving</span></li>
+          </ul>
+        </header>
+
+        <p class="description">Description here</p>
+      
+        <section class="ingredients">
+          <h2>Ingredients</h2>
+          <ol>
+            ${recipe.recipeIngredient.map(ing => `
+              <li>${ing}</li>
+            `).join('')}
+          </ol>
+        </section>
+
+        <section class="instructions">
+          <h2>Instructions</h2>
+          <ol>
+            ${recipe.recipeInstructions.map(instr => `
+              <li>${instr.text}</li>
+            `).join('')}
+          </ol>
+        </section>
+      </div>
     </article>
   `;
 
