@@ -1,0 +1,8 @@
+body[data-theme="modern-dark"] {
+    --chrome-background: #0e0e17;
+    --titlebar-background: #313344;
+    --titlebar-color: #fff;
+    --tab-hover-background: #1b1a1f;
+    --address-background: #1b1a1f;
+    --address-color: #fff;
+}
