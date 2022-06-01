@@ -1,9 +1,6 @@
 import Tab from './tab.js';
 
-const newTabTemplate = document.createElement('template');
-newTabTemplate.innerHTML = `
-  <button slot="tab" class="tab"></button>
-  <content-window slot="panel" class="frame" href="browser://newtab"></content-window>`;
+const newTabTemplate = document.getElementById('new-tab-template');
 
 function cloneNewTab() {
   return document.importNode(newTabTemplate.content, true);
@@ -75,6 +72,7 @@ function init(titlebarNode) {
     let index = tabs.length;
     tabs.push(tab);
     setActiveTab(tab, index);
+    tab.addEventListener('close', onTabClose);
   }
 
   function onSelectedChanged(ev) {
@@ -83,13 +81,28 @@ function init(titlebarNode) {
     setAddressValue(panel.getAttribute('href'));
   }
 
+  function onTabClose(ev) {
+    let idx = tabs.indexOf(ev.detail);
+    let tab = tabs[idx];
+    tab.update({ teardown: true });
+    tabs.splice(idx, 1);
+    if(tabs.length) {
+      let newIdx = idx === 0 ? 0 : idx - 1;
+      setActiveTab(tabs[newIdx], newIdx);
+    } else {
+      window.close();
+    }
+  }
+
   /* Init functionality */
   addressFormNode.addEventListener('submit', onAddressSubmit);
   addressInputNode.addEventListener('click', onAddressInputClick);
   titlebarNode.addEventListener('selected-changed', onSelectedChanged);
   let initialTabContent = Array.from(titlebarNode.querySelectorAll('[slot=tab], [slot=panel]'));
   for(let i = 0; i < initialTabContent.length; i += 2) {
-    tabs.push(new Tab(initialTabContent[i], initialTabContent[i + 1]));
+    let tab = new Tab(initialTabContent[i], initialTabContent[i + 1]);
+    tabs.push(tab);
+    tab.addEventListener('close', onTabClose);
   }
   setActiveTab(tabs[0], 0);
 

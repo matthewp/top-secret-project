@@ -2,12 +2,24 @@
 import {app, BrowserWindow, globalShortcut, protocol} from 'electron';
 import path from 'path';
 import './backend/request';
+import Store from 'electron-store';
+
+interface WindowSizePreference {
+  width: number;
+  height: number;
+}
 
 function createWindow () {
+  const store = new Store();
+  const { width, height } = store.get('prefs.window.size') as WindowSizePreference ?? {
+    width: 800,
+    height: 600
+  };
+
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width,
+    height,
     titleBarStyle: 'hidden',
     trafficLightPosition: { x: 20, y: 12 },
     frame: false,
@@ -17,7 +29,14 @@ function createWindow () {
   })
 
   // and load the index.html of the app.
-  mainWindow.loadFile('index.html')
+  mainWindow.loadFile('index.html');
+
+  mainWindow.on('resize', ev => {
+    setImmediate(() => {
+      let [width, height] = mainWindow.getSize();
+      store.set('prefs.window.size', { width, height });
+    });
+  })
 
   // Open the DevTools.
    mainWindow.webContents.openDevTools()
@@ -36,6 +55,12 @@ app.whenReady().then(() => {
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) {
       mainWindow = createWindow();
+    }
+  });
+
+  app.on('window-all-closed', function () {
+    if (process.platform !== "darwin") {
+      app.quit();
     }
   });
 
