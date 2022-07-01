@@ -18,7 +18,7 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^19.0.3",
+    "electron": "^19.0.7",
     "@generic-components/components": "^1.1.5",
     "electron-store": "^8.0.1",
     "esbuild": "^0.14.42",
