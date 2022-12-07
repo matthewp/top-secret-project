@@ -21,7 +21,7 @@
     "electron": "^19.0.3",
     "@generic-components/components": "^1.1.5",
     "electron-store": "^8.0.1",
-    "esbuild": "^0.14.42",
+    "esbuild": "^0.16.1",
     "robot3": "^0.3.1"
   }
 }
